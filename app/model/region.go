@@ -2,7 +2,6 @@ package model
 
 import (
 	"github.com/wenwenxiong/cloudmanager/app/model/common"
-	uuid "github.com/satori/go.uuid"
 )
 
 type Region struct {
