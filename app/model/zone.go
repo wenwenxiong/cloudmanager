@@ -1,30 +1,41 @@
 package model
 
-import (
-	"github.com/wenwenxiong/cloudmanager/app/model/common"
-	uuid "github.com/satori/go.uuid"
-)
+import "cloudmanager/library/global"
 
-var (
-	DeleteZoneError = "DELETE_ZONE_FAILED_RESOURCE"
-)
-
+// 如果含有time.Time 请自行import time包
 type Zone struct {
-	common.BaseModel
-	ID           string `json:"id" gorm:"type:varchar(64)"`
-	Name         string `json:"name" gorm:"type:varchar(256);not null;unique"`
-	Vars         string `json:"vars" gorm:"type: text(65535)"`
-	Status       string `json:"status" gorm:"type:varchar(64)"`
-	RegionID     string `json:"regionID" gorm:"type:varchar(64)"`
-	CredentialID string `json:"credentialId" gorm:"type:varchar(64)"`
-	Region       Region `json:"region"`
+      global.Model
+      Name  string `orm:"name" json:"name" form:"name" gorm:"column:name;comment:;type:varchar(255);size:255;"`
+      Vars  string `orm:"vars" json:"vars" form:"vars" gorm:"column:vars;comment:;type:mediumtext;"`
+      Status  string `orm:"status" json:"status" form:"status" gorm:"column:status;comment:;type:varchar(64);size:64;"`
+      RegionId  string `orm:"region_id" json:"regionId" form:"regionId" gorm:"column:region_id;comment:;type:varchar(64);size:64;"`
 }
 
-func (z *Zone) BeforeCreate() (err error) {
-	z.ID = uuid.NewV4().String()
-	return err
+
+func (m *Zone) TableName() string {
+  return "zone"
 }
 
-func (z Zone) TableName() string {
-	return "ko_zone"
-}
+
+// 如果使用工作流功能 需要打开下方注释 并到initialize的workflow中进行注册 且必须指定TableName
+// type ZoneWorkflow struct {
+// 	// 工作流操作结构体
+// 	WorkflowBase      `json:"wf"`
+// 	Zone   `json:"business"`
+// }
+
+// func (Zone) TableName() string {
+// 	return "zone"
+// }
+
+// 工作流注册代码
+
+// initWorkflowModel内部注册
+// model.WorkflowBusinessStruct["zone"] = func() model.GVA_Workflow {
+//   return new(model.ZoneWorkflow)
+// }
+
+// initWorkflowTable内部注册
+// model.WorkflowBusinessTable["zone"] = func() interface{} {
+// 	return new(model.Zone)
+// }

@@ -19,7 +19,7 @@
 
 # Database.
 [database]
-    link  = "mysql:root:12345678@tcp(127.0.0.1:3306)/test"
+    link  = "mysql:root:thinker@tcp(192.168.50.2:3306)/cloudmanager"
     debug = true
     # Database logger.
     [database.logger]

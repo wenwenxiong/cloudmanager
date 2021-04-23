@@ -1,0 +1,16 @@
+version: '3'
+
+services:
+
+  mysql-development:
+    image: mysql:8.0.11
+    environment:
+      MYSQL_ROOT_PASSWORD: thinker
+      MYSQL_DATABASE: blog
+    ports:
+      - "3306:3306"
+  
+  admin:    
+    image: adminer    
+    ports:      
+      - "8080:8080"
